@@ -68,3 +68,46 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+1. Tools Required
+   a. Code Editor VS-Code
+   b. Web Browser
+   c. VS Code extension
+
+2. Webiste Template
+   a. Create amazon folder
+   b. Create template folder
+   c. create index.html
+   d. add default HTML code
+   e. link to style.css
+   f. create hader, main and footer
+   g. style elements
+
+3. Display Products
+   a. create products div
+   b. add product atrtributues
+   c. add link, image, name and price
+
+4. Create React App
+   a. npx create-react-app frontend
+   b. npm start
+   c. Remove unused files
+   d. copy index.html content to the App.js
+   e. copy style.css content to index.css
+   f. replace class with className
+
+5. Create Rating and Product Component
+   a. create components/Rating.js
+   b. create div.rating
+   c. create span for each star rating
+   d. create Product component
+   e. Use Rating component
+
+6. Build Product Screen
+   a. Install react-router-dom
+   b. Use BrowserRouter and Route for Home Screen
+   c. Create HomeScreen.js
+   d. Add product list code there
+   e. Create ProductScreen.js
+   f. Add new Route from product details to App.js
+   g. Create three (3) coloumns fofr product image, info and action
