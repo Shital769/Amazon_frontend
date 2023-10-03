@@ -7,15 +7,16 @@ import Rating from "../Components/Rating";
 import { detailsProduct } from "../actions/productActions";
 
 export default function ProductScreen(props) {
-  const {_id} = useParams()
   const dispatch = useDispatch();
-  const productId = props._id;
+  const { id } = useParams();
+  // const id = props.match.params.id;
+  console.log("id", id);
   const productDetails = useSelector((state) => state.productDetails);
   const { loading, error, product } = productDetails;
 
-useEffect(() => {
-  dispatch(detailsProduct(productId))
-},[dispatch, productId])
+  useEffect(() => {
+    dispatch(detailsProduct(id));
+  }, [dispatch, id]);
 
   return (
     <div>
