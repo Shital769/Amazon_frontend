@@ -6,7 +6,7 @@ import MessageBox from "../Components/MessageBox";
 import Rating from "../Components/Rating";
 import { detailsProduct } from "../actions/productActions";
 
-export default function ProductScreen(props) {
+export default function ProductScreen() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { id } = useParams(); //gettting product id from backend
