@@ -199,6 +199,10 @@ img.large {
 }
 
 /* Alert */
+.loading {
+  display: block !important;
+}
+
 .success {
   color: #20a020;
 }
@@ -242,7 +246,7 @@ img.large {
 /* Dropdown */
 .dropdown {
   display: inline-block;
-  position: absolute;
+  position: relative;
   background-color: #203040;
 }
 
