@@ -25,8 +25,9 @@ export default function CartScreen(props) {
   };
 
   const handleOnCheckout = () => {
-    // navigate to the "/signin" route with a query parameter
-    navigate("/signin?redirect=shipping");
+    // navigate to the "/shipping" route with a query parameter
+    // navigate("/signin?redirect=shipping");
+    navigate("/shipping")
   };
   return (
     <div className="row top">
