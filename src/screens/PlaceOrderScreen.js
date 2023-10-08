@@ -1,7 +1,11 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import CheckoutSteps from "../Components/CheckoutSteps";
+import { createOrder } from "../actions/orderActions";
+import { ORDER_CREATE_RESET } from "../constants/orderConstants";
+import LoadingBox from "../Components/LoadingBox";
+import MessageBox from "../Components/MessageBox";
 
 export default function PlaceOrderScreen() {
   const cart = useSelector((state) => state.cart);
@@ -10,18 +14,26 @@ export default function PlaceOrderScreen() {
     navigate("/payment");
   }
 
+  const orderCreate = useSelector((state) => state.orderCreate);
+  const { loading, success, error, order } = orderCreate;
   const toPrice = (num) => Number(num.toFixed(2)); //5.123 =>"5.12" => 5.12
   cart.itemsPrice = toPrice(
-    cart.cartItems.reduce((a, c) => a + c.qty * c.price,0)
+    cart.cartItems.reduce((a, c) => a + c.qty * c.price, 0)
   );
   cart.shippingPrice = cart.itemsPrice > 100 ? toPrice(0) : toPrice(10);
   cart.taxPrice = toPrice(0.06 * cart.itemsPrice);
   cart.totalPrice = cart.itemsPrice + cart.shippingPrice + cart.taxPrice;
 
-const placeOrderHandler = () => {
-   // TODO:
-}
-
+  const dispatch = useDispatch();
+  const placeOrderHandler = () => {
+    dispatch(createOrder({ ...cart, orderItems: cart.cartItems }));
+  };
+  useEffect(() => {
+    if (success) {
+      navigate(`/order/${order._id}`);
+      dispatch({ type: ORDER_CREATE_RESET });
+    }
+  }, [dispatch, order, navigate, success]);
 
   return (
     <div>
@@ -90,19 +102,19 @@ const placeOrderHandler = () => {
               <li>
                 <div className="row">
                   <div>Items</div>
-                  <div>${cart.itemsPrice}</div>
+                  <div>${cart.itemsPrice.toFixed(2)}</div>
                 </div>
               </li>
               <li>
                 <div className="row">
                   <div>Shipping</div>
-                  <div>${cart.shippingPrice}</div>
+                  <div>${cart.shippingPrice.toFixed(2)}</div>
                 </div>
               </li>
               <li>
                 <div className="row">
                   <div>Tax</div>
-                  <div>${cart.taxPrice}</div>
+                  <div>${cart.taxPrice.toFixed(2)}</div>
                 </div>
               </li>
               <li>
@@ -111,7 +123,7 @@ const placeOrderHandler = () => {
                     <div>Total</div>
                   </strong>
                   <strong>
-                    <div>${cart.totalPrice}</div>
+                    <div>${cart.totalPrice.toFixed(2)}</div>
                   </strong>
                 </div>
               </li>
@@ -125,6 +137,8 @@ const placeOrderHandler = () => {
                   Place Order
                 </button>
               </li>
+              {loading && <LoadingBox></LoadingBox>}
+              {error && <MessageBox variant="danger">{error}</MessageBox>}
             </ul>
           </div>
         </div>
