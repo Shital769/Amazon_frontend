@@ -17,7 +17,7 @@ export default function PaymentMethodScreen() {
   const submitHandler = (e) => {
     e.preventDefault();
     dispatch(savePaymentMethod(paymentMethod));
-    navigate("/placeholder");
+    navigate("/placeorder");
   };
 
   return (
@@ -53,7 +53,7 @@ export default function PaymentMethodScreen() {
               required
               onChange={(e) => setPaymentMethod(e.target.value)}
             />
-            <label htmlFor="stripe">Paypal</label>
+            <label htmlFor="stripe">Stripe</label>
           </div>
         </div>
         <div>
