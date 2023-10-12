@@ -1,6 +1,9 @@
 import axios from "axios";
 import { CART_EMPTY } from "../constants/cartConstants";
 import {
+  MY_ORDER_LIST_FAIL,
+  MY_ORDER_LIST_REQUEST,
+  MY_ORDER_LIST_SUCCESS,
   ORDER_CREATE_FAIL,
   ORDER_CREATE_REQUEST,
   ORDER_CREATE_SUCCESS,
@@ -9,7 +12,7 @@ import {
   ORDER_DETAILS_SUCCESS,
   ORDER_PAYMENT_FAIL,
   ORDER_PAYMENT_REQUEST,
-  ORDER_PAYMENT_SUCCESS
+  ORDER_PAYMENT_SUCCESS,
 } from "../constants/orderConstants";
 
 export const createOrder = (order) => async (dispatch, getState) => {
@@ -61,7 +64,10 @@ export const detailsOrder = (orderId) => async (dispatch, getState) => {
 export const payOrder =
   (order, paymentResult) => async (dispatch, getState) => {
     console.log("paying", paymentResult);
-    dispatch({ type: ORDER_PAYMENT_REQUEST, payload: { order, paymentResult } });
+    dispatch({
+      type: ORDER_PAYMENT_REQUEST,
+      payload: { order, paymentResult },
+    });
     const {
       userSignIn: { userInfo },
     } = getState();
@@ -74,7 +80,7 @@ export const payOrder =
           headers: { Authorization: `Bearer ${userInfo.token}` },
         }
       );
-      dispatch({type:ORDER_PAYMENT_SUCCESS, payload:data})
+      dispatch({ type: ORDER_PAYMENT_SUCCESS, payload: data });
     } catch (error) {
       const message =
         error.response && error.response.data.message
@@ -83,3 +89,23 @@ export const payOrder =
       dispatch({ type: ORDER_PAYMENT_FAIL, payload: message });
     }
   };
+
+export const myOrderList = () => async (dispatch, getState) => {
+  dispatch({ type: MY_ORDER_LIST_REQUEST });
+  const {
+    userSignIn: { userInfo },
+  } = getState();
+
+  try {
+    const { data } = await axios.get("/api/orders/myorder", {
+      headers: { Authorization: `Bearer ${userInfo.token}` },
+    });
+    dispatch({ type: MY_ORDER_LIST_SUCCESS, payload: data });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    dispatch({ type: MY_ORDER_LIST_FAIL, payload: message });
+  }
+};
