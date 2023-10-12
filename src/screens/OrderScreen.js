@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
+import { PayPalButton } from "react-paypal-button-v2";
 import LoadingBox from "../Components/LoadingBox";
 import MessageBox from "../Components/MessageBox";
 import { detailsOrder } from "../actions/orderActions";
@@ -13,7 +14,6 @@ export default function OrderScreen() {
   const { order, loading, error } = orderDetails;
 
   const dispatch = useDispatch();
-
   useEffect(() => {
     const addPayPalScript = async () => {
       const { data } = await axios.get("/api/config/paypal");
@@ -26,8 +26,9 @@ export default function OrderScreen() {
       };
       document.body.appendChild(script);
     };
-
-    if (!order._id) {
+    console.log("order:", order);
+    console.log("orderId:", orderId);
+    if ( !order || !order._id) {
       dispatch(detailsOrder(orderId));
     } else {
       if (!order.isPaid) {
@@ -51,7 +52,7 @@ export default function OrderScreen() {
   ) : (
     <div>
       {/* <h1>Order {order._id}</h1> */}
-      {order && <h1>Order {order._id}</h1>}
+      {order && <h1>Order {order?._id}</h1>}
 
       <div className="row top">
         <div className="col-2">
@@ -161,10 +162,10 @@ export default function OrderScreen() {
                   {!sdkReady ? (
                     <LoadingBox></LoadingBox>
                   ) : (
-                    <PaypalButton
+                    <PayPalButton
                       amount={order.totalPrice}
                       onSuccess={successPaymentHandler}
-                    ></PaypalButton>
+                    ></PayPalButton>
                   )}
                 </li>
               )}
