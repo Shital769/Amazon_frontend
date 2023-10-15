@@ -99,14 +99,11 @@ function App() {
             <Route path="/placeorder" element={<PlaceOrderScreen />} />
             <Route path="/order/:orderId" element={<OrderScreen />} />
             <Route path="/orderhistory" element={<OrderHistoryScreen />} />
-            {/* <Route
-                path="/profile"
-                element={<PrivateRoute element={<ProfileScreen />} />}
-              /> */}
             <Route
               path="/profile"
-              element={<PrivateRoute element={ProfileScreen} />}
-            />{" "}
+              element={<PrivateRoute element={<ProfileScreen />} />}
+            />
+
             <Route path="/" element={<HomeScreen />} exact />
           </Routes>
         </main>
